@@ -7,12 +7,12 @@ from schemas.credit import ApplicationSubmission
 
 class ApplicationSubmissionHandler(Handler[ApplicationSubmissionCommand]):
     def __init__(
-        self, repo: Repository[ApplicationSubmissionCommand] | None = None
+        self, repo: Repository[int, ApplicationSubmissionCommand] | None = None
     ) -> None:
-        self.repo = repo or InMemoryRepository[ApplicationSubmissionCommand]()
+        self.repo = repo or InMemoryRepository[int, ApplicationSubmissionCommand]()
 
     def handle(self, command: ApplicationSubmissionCommand) -> ApplicationSubmission:
-        data = self.repo.save(command)
+        data = self.repo.save(command.id, command)
         return ApplicationSubmission(
             id=data.id,
             name=data.name,

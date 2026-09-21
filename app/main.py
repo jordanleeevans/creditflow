@@ -6,7 +6,7 @@ from repositories.in_memory import InMemoryRepository
 from schemas import ApplicationSubmission
 from starlette.status import HTTP_200_OK
 
-repository = InMemoryRepository[ApplicationSubmissionCommand]()
+repository = InMemoryRepository[int, ApplicationSubmissionCommand]()
 command_bus = CommandBus()
 command_bus.register(
     ApplicationSubmissionCommand, ApplicationSubmissionHandler(repository)
@@ -15,7 +15,7 @@ command_bus.register(
 app = FastAPI()
 
 
-@app.post("/application", response_model=ApplicationSubmission, status_code=HTTP_200_OK)
+@app.post("/application", status_code=HTTP_200_OK)
 def create_application(application: ApplicationSubmission) -> ApplicationSubmission:
     command = ApplicationSubmissionCommand(**application.model_dump())
     return command_bus.dispatch(command)
