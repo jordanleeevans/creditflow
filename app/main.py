@@ -1,20 +1,29 @@
 from fastapi import FastAPI
-from commands.actions import ApplicationSubmissionCommand, RiskAssessmentCommand
+from commands.actions import (
+    ApplicationApprovalCommand,
+    ApplicationSubmissionCommand,
+    RiskAssessmentCommand,
+)
 from commands.bus import CommandBus
+from handlers.approval import ApplicationApprovalHandler
 from handlers.application import ApplicationSubmissionHandler
 from handlers.risk import RiskAssessmentHandler
 from repositories.in_memory import InMemoryRepository
-from schemas import ApplicationRiskAssessment, ApplicationSubmission
+from schemas import ApplicationApproval, ApplicationRiskAssessment, ApplicationSubmission
 from starlette.status import HTTP_200_OK
 
 repository = InMemoryRepository[int, ApplicationSubmissionCommand]()
 assessment_repository = InMemoryRepository[int, ApplicationRiskAssessment]()
+approval_repository = InMemoryRepository[int, ApplicationApproval]()
 command_bus = CommandBus()
 command_bus.register(
     ApplicationSubmissionCommand, ApplicationSubmissionHandler(repository)
 )
 command_bus.register(
     RiskAssessmentCommand, RiskAssessmentHandler(assessment_repository)
+)
+command_bus.register(
+    ApplicationApprovalCommand, ApplicationApprovalHandler(approval_repository)
 )
 
 app = FastAPI()

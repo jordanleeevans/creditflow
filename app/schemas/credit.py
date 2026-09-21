@@ -25,6 +25,16 @@ class RiskCategory(StrEnum):
     HIGH = "high"
 
 
+class ApprovalDecision(StrEnum):
+    APPROVED = "approved"
+    DECLINED = "declined"
+
+
 class ApplicationRiskAssessment(BaseModel):
     application_id: PositiveInt
     risk: RiskCategory
+
+
+class ApplicationApproval(BaseModel):
+    application_id: PositiveInt
+    decision: ApprovalDecision

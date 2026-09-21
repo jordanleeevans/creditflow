@@ -1,5 +1,11 @@
+from handlers.approval import ApplicationApprovalHandler
 from handlers.base import Handler
 from handlers.application import ApplicationSubmissionHandler
 from handlers.risk import RiskAssessmentHandler
 
-__all__ = ["ApplicationSubmissionHandler", "Handler", "RiskAssessmentHandler"]
+__all__ = [
+    "ApplicationApprovalHandler",
+    "ApplicationSubmissionHandler",
+    "Handler",
+    "RiskAssessmentHandler",
+]
