@@ -2,6 +2,7 @@ from pydantic import BaseModel, PositiveInt, field_validator
 
 
 class ApplicationSubmission(BaseModel):
+    id: PositiveInt
     name: str
     credit_rating: PositiveInt
     homeowner: bool
