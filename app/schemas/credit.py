@@ -1,3 +1,5 @@
+from enum import StrEnum
+
 from pydantic import BaseModel, PositiveInt, field_validator
 
 
@@ -16,3 +18,13 @@ class ApplicationSubmission(BaseModel):
                 " or equal to 1000.",
             )
         return value
+
+
+class RiskCategory(StrEnum):
+    LOW = "low"
+    HIGH = "high"
+
+
+class ApplicationRiskAssessment(BaseModel):
+    application_id: PositiveInt
+    risk: RiskCategory

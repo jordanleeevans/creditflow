@@ -10,3 +10,9 @@ class ApplicationSubmissionCommand(Command):
     name: str
     credit_rating: PositiveInt
     homeowner: bool
+
+
+class RiskAssessmentCommand(Command):
+    application_id: PositiveInt
+    credit_rating: PositiveInt
+    homeowner: bool
