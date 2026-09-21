@@ -8,10 +8,13 @@ from commands.bus import CommandBus
 from handlers.approval import ApplicationApprovalHandler
 from handlers.application import ApplicationSubmissionHandler
 from handlers.risk import RiskAssessmentHandler
+from logging_config import configure_logging
 from repositories.in_memory import InMemoryRepository
 from schemas import ApplicationApproval, ApplicationRiskAssessment, ApplicationSubmission
 from starlette.status import HTTP_200_OK
 from workflows.application import ApplicationWorkflow
+
+configure_logging()
 
 repository = InMemoryRepository[int, ApplicationSubmissionCommand]()
 assessment_repository = InMemoryRepository[int, ApplicationRiskAssessment]()
