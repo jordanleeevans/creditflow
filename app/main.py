@@ -11,6 +11,7 @@ from handlers.risk import RiskAssessmentHandler
 from repositories.in_memory import InMemoryRepository
 from schemas import ApplicationApproval, ApplicationRiskAssessment, ApplicationSubmission
 from starlette.status import HTTP_200_OK
+from workflows.application import ApplicationWorkflow
 
 repository = InMemoryRepository[int, ApplicationSubmissionCommand]()
 assessment_repository = InMemoryRepository[int, ApplicationRiskAssessment]()
@@ -25,11 +26,11 @@ command_bus.register(
 command_bus.register(
     ApplicationApprovalCommand, ApplicationApprovalHandler(approval_repository)
 )
+application_workflow = ApplicationWorkflow(command_bus)
 
 app = FastAPI()
 
 
 @app.post("/application", status_code=HTTP_200_OK)
-def create_application(application: ApplicationSubmission) -> ApplicationSubmission:
-    command = ApplicationSubmissionCommand(**application.model_dump())
-    return command_bus.dispatch(command)
+def create_application(application: ApplicationSubmission) -> ApplicationApproval:
+    return application_workflow.submit(application)
