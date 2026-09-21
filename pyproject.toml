@@ -1,0 +1,7 @@
+[project]
+name = "creditflow"
+version = "0.1.0"
+description = "A small microservice API that uses a finite state-machine to assess a credit application."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = ["fastapi[standard]>=0.141.1"]
